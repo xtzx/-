@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        function MPromise(executor) {
+            var self = this;
+            self.status = 'pending'; //promise当前的状态
+            self.data = undefined; //promise的值
+            self.onResolvedCallback = [];
+            //promise状态变为resolve时的回调函数集，可能有多个
+            self.onRejectedCallback = [];
+            //promise状态变为reject时的回调函数集，可能有多个
+            function resolve(value) {
+                setTimeout(function () {
+                    if (self.status === 'pending') {
+                        self.status = 'resolved';
+                        self.data = value;
+                        for (var i = 0; i < self.onResolvedCallback.length; i++) {
+                            self.onResolvedCallback[i](value);
+                        }
+                    }
+                })
+            }
+
+            function reject(reason) {
+                if (self.status === 'pending') {
+                    self.status = 'rejected';
+                    self.data = reason;
+                    for (var i = 0; i < self.onRejectedCallback.length; i++) {
+                        self.onRejectedCallback[i](reason);
+                    }
+                }
+            }
+
+            try {
+                executor(resolve, reject);
+            } catch (e) {
+                reject(e);
+            }
+        };
+        MPromise.prototype.then = function (onResolve, onReject) {
+
+            this.onResolvedCallback.push(onResolve);
+            this.onRejectedCallback.push(onReject);
+        };
+
+        var myPromise = new MPromise((resolve) => {
+            resolve(1);
+        });
+        myPromise.then((a) => console.log(a));
+    </script>
+</body>
+
+</html>
