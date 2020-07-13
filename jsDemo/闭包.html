@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <title>Document</title>
+    </head>
+    <body>
+        <script>
+            debounce = (fn, delay) => {
+                console.log('delay: ', delay);
+                let timer = null; //维护一个timer
+                return function() {
+                    if (timer) {
+                        clearTimeout(timer);
+                        timer = null;
+                    }
+                    timer = setTimeout(fn, delay);
+                };
+            };
+
+            // 防抖函数
+            debounceFn = debounce(this.initData, 100);
+
+            // setInterval(debounceFn, 600);
+            // setInterval(() => {
+            //     console.log(1);
+            // }, 800);
+
+            closure = () => {
+                let a = 1;
+                return function() {
+                    a++;
+                    console.log('a: ', a);
+                    return a;
+                };
+            };
+            const closureFn = closure();
+
+            closureFn();
+
+            setTimeout(() => {
+                closureFn();
+            }, 1000);
+
+            setTimeout(() => {
+                closureFn();
+            }, 2000);
+
+            var name = 'window';
+            var p = {
+                name: 'Ken',
+                getName: function() {
+                    var self = this;
+                    // 内部函数对变量 this 的引用
+                    return function() {
+                        return self.name;
+                    };
+                }
+            };
+            var getName = p.getName();
+            var _name = getName();
+            console.log(_name);
+
+            const testFn = function() {
+                console.log(this);
+
+                const testb1 = function() {
+                    console.log(this);
+                };
+                const testb2 = () => {
+                    console.log(this);
+                };
+                testb1();
+                testb2();
+            };
+            testFn();
+
+            const objTest = {
+                a: () => {
+                    console.log(this);
+                }
+            };
+            objTest.a();
+        </script>
+    </body>
+</html>

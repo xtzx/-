@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <style>
+            .div {
+                width: 100px;
+                height: 100px;
+                background-color: #f00;
+            }
+            .header {
+                position: fixed;
+                z-index: 9999;
+                width: 100%;
+                height: 50px;
+                background-color: #ff0;
+                will-change: transform;
+            }
+        </style>
+        <title>性能优化</title>
+    </head>
+
+    <body>
+        <header class="header">固定区域</header>
+        <div class="div">变动区域</div>
+        <script>
+            const div = document.querySelector('.div');
+            const run = () => {
+                div.style.opacity = 0.5;
+            };
+            setTimeout(run, 2000);
+        </script>
+    </body>
+</html>

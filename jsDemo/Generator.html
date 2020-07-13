@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+    </head>
+    <body>
+        <script>
+            function* gen1() {
+                console.log('1: ');
+                return 1;
+            }
+            const gen1O = gen1();
+            // console.log('gen1O.next(): ', gen1O.next());
+
+            function* demo() {
+                yield; // OK
+                yield 123; // OK
+            }
+
+            function* demo3() {
+                var i = 0;
+                yield 1;
+                var reset = yield i;
+                console.log('reset: ', reset);
+            }
+
+            const aa3 = demo3();
+            // console.log('aa3.next(): ', aa3.next(3));
+            // console.log('aa3.next(): ', aa3.next({}));
+            // console.log('aa3.next(): ', aa3.next([]));
+
+            // const aa = demo();
+            // for (const iterator of aa) {
+            //     console.log('iterator: ', iterator);
+            // }
+
+            var g = function* () {
+                try {
+                    yield;
+                } catch (e) {
+                    console.log('内部捕获', e);
+                }
+            };
+
+            var i = g();
+            i.next();
+
+            try {
+                i.throw('a');
+                i.throw('b');
+            } catch (e) {
+                console.log('外部捕获', e);
+            }
+        </script>
+    </body>
+</html>

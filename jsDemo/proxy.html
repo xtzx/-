@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+    </head>
+    <body>
+        <script>
+            let p = {
+                a: 'a',
+            };
+
+            let handler = {
+                set(target, key, value, receiver) {
+                    console.log('set');
+                    Reflect.set(receiver, key, value, target);
+                },
+                defineProperty(target, key, attribute) {
+                    console.log('defineProperty');
+                    Reflect.defineProperty(target, key, attribute);
+                },
+            };
+
+            let obj = new Proxy(p, handler);
+            obj.a = 'A';
+            obj.b = 'B';
+        </script>
+    </body>
+</html>

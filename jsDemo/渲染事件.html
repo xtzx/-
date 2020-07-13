@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <title>Document</title>
+    </head>
+    <!-- <body onload="after()"> -->
+    <body>
+        <div>rrr</div>
+        <script>
+            // window.addEventListener(
+            //     'load',
+            //     function(event) {
+            //         console.log('333window-load');
+            //     },
+            //     false
+            // );
+            // document.addEventListener(
+            //     'load',
+            //     function(event) {
+            //         console.log('2222document-load');
+            //     },
+            //     false
+            // );
+            // window.body
+            // window.body.addEventListener(
+            //     'load',
+            //     function(event) {
+            //         console.log('body-load', event);
+            //     },
+            //     false
+            // );
+            // document.addEventListener(
+            //     'DOMContentLoaded',
+            //     function(event) {
+            //         console.log('111DOMContentLoaded');
+            //     },
+            //     false
+            // );
+            // document.addEventListener('readystatechange', event =>
+            //     console.log('00000event: ', document.readyState)
+            // );
+            // // document.onreadystatechange = function(event) {
+            // //     console.log('onreadytstatechange-event: ', event);
+            // // };
+
+            // function after() {
+            //     console.log('页面after');
+            // }
+            // function cb() {
+            //     setTimeout(cb, 0);
+            // }
+            // setTimeout(cb, 0);
+
+            function timerCallback2() {
+                console.log(2);
+            }
+            function timerCallback() {
+                console.log(1);
+                setTimeout(timerCallback2, 0);
+            }
+            setTimeout(timerCallback, 0);
+        </script>
+    </body>
+</html>

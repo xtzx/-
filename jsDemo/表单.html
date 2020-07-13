@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <title>Document</title>
+    </head>
+    <body>
+        <form id="myForm" name="myForm">
+            <div>
+                <label for="username">用户名：</label>
+                <input type="text" id="username" name="username" value="dads" />
+            </div>
+            <div>
+                <label for="useracc">账号：</label>
+                <input type="text" id="useracc" name="useracc" />
+            </div>
+            <div>
+                <label for="userfile">上传文件：</label>
+                <input type="file" id="userfile" name="userfile" />
+            </div>
+            <input type="submit" value="Submit!" />
+        </form>
+
+        <script>
+            var myForm = document.getElementById('myForm');
+            var formData = new FormData(myForm);
+            console.log('formData: ', formData);
+
+            // 获取某个控件的值
+            formData.get('username'); // ""
+            console.log('', formData.get('username'));
+
+            // 设置某个控件的值
+            formData.set('username', '张三');
+
+            formData.get('username'); // "张三"
+        </script>
+    </body>
+</html>

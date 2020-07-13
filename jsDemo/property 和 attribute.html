@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <title>Document</title>
+    </head>
+    <body>
+        <!-- <input id="in_1" value="1" sth="whatever" />
+        <input id="in_2" /> -->
+        <a href="page_1.html" id="a_1"></a>
+<input id="in_1" value="1" sth="whatever" disabled="disabled" />
+<!-- 此时input已经被禁用了 -->
+<script>
+    const in1 = document.getElementById('in_1');
+    console.log(in1.disabled); // true
+    in1.setAttribute('disabled', false);
+    // 设置attribute中的disabled，无论是false还是null都不会取消禁用
+    console.log(in1.getAttribute('disabled')); // 'false'
+
+    console.log(in1.disabled); // true
+    in1.disabled = false; // 取消禁用
+    console.log(in1.disabled); // false
+    console.log(in1.getAttribute('disabled')); // null，attribute中的disabled已经被移除了
+
+    console.log(in1.disabled); // true
+    in1.removeAttribute('disabled'); // 移除attribute上的disabled来取消禁用
+    console.log(in1.disabled); // false
+    console.log(in1.getAttribute('disabled')); // null，attribute中的disabled已经被移除了
+
+            // const a1 = document.getElementById('a_1');
+            // console.log(a1.href);
+            // // 'file:///Users/bjhl/Documents/ProjectMe/jsDemo/page_1.html'
+            // console.log(a1.getAttribute('href')); // 'page_1.html'
+
+            // console.log('更改property：: ');
+
+            // a1.setAttribute('href', 'page_2.html'); // 相对路径
+            // console.log(a1.href);
+            // // 'file:///Users/bjhl/Documents/ProjectMe/jsDemo/page_2.html'
+            // console.log(a1.getAttribute('href')); // 'page_2.html'
+
+            // a1.setAttribute('href', '/page_3.html'); // 根目录路径
+            // console.log(a1.href);
+            // // 'file:///page_3.html'
+            // console.log(a1.getAttribute('href')); // '/page_3.html'
+
+            // console.log('更改property：: ');
+            // a1.href = 'home.html'; // 相对路径
+            // console.log(a1.href);
+            // // 'file:///Users/bjhl/Documents/ProjectMe/jsDemo/home.html'
+            // console.log(a1.getAttribute('href')); // 'home.html'
+
+            // a1.href = '/home.html'; // 根目录路径
+            // console.log(a1.href);
+            // // 'file:///home.html'
+            // console.log(a1.getAttribute('href')); // '/home.html'
+
+            // a1.id = 'new_id';
+            // console.log(a1.id); // 'new_id'
+            // console.log(a1.getAttribute('id')); // 'new_id'
+            // const in1 = document.getElementById('in_1');
+            // console.log('in1', in1);
+            // console.log('in1.attributes: ', in1.attributes);
+            // console.log('in1.idi', in1.id);
+            // console.log('in1.value', in1.value);
+            // // 即使不添加value值、由于它是DOM默认的基本属性，在DOM初始化的时候它照样会被创建
+            // console.log('in1.sth', in1.sth);
+            // // undefined
+            // console.log('in1.attributes.sth: ', in1.attributes.sth);
+
+            // console.log('--------------');
+
+            // in1.value = 'new value of prop';
+            // console.log(in1.value);
+            // // 'new value of prop'
+            // console.log(in1.attributes.value);
+            // // 'value="1"'
+
+            // in1.attributes.value.value = 'new value of attr';
+            // console.log(in1.value);
+            // // 'new value of attr'
+            // console.log(in1.attributes.value);
+            // // 'new value of attr'
+        </script>
+    </body>
+</html>

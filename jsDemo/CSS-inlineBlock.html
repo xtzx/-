@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <title>Document</title>
+    </head>
+    <style>
+        .father {
+            font-size: 0;
+            border: 1px solid red;
+        }
+
+        div {
+            width: 100px;
+            float: left;
+            height: 100px;
+            display: inline-block;
+            background-color: blue;
+        }
+        span {
+            border: 1px solid grey;
+        }
+        .aaa,
+        .bbb,
+        .ccc {
+            display: inline-block;
+            vertical-align: top;
+        }
+        .bbb {
+            font-size: 30px;
+        }
+        .aaa {
+            font-size: 30px;
+        }
+
+        span::after {
+            content: 'x';
+        }
+    </style>
+    <body>
+        <section class="father">
+            <div class="aaa"></div>
+            <div class="aaa">aaa</div>
+            <div class="bbb">bbb</div>
+            <div class="ccc"></div>
+            <span>33</span>
+        </section>
+
+        <!-- <span>3344444</span> -->
+    </body>
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+    </head>
+    <body>
+        <script>
+            var class2type = {};
+
+            // 生成class2type映射
+            'Boolean Number String Function Array Date RegExp Object Error'
+                .split(' ')
+                .map(function (item, index) {
+                    class2type['[object ' + item + ']'] = item.toLowerCase();
+                });
+
+            const basicMapping = {
+                '[object Array]': 'array',
+                '[object Boolean]': 'boolean',
+                '[object Date]': 'date',
+                '[object Error]': 'error',
+                '[object Function]': 'function',
+                '[object Number]': 'number',
+                '[object Object]': 'object',
+                '[object RegExp]': 'regexp',
+                '[object String]': 'string',
+            };
+
+            function type(obj) {
+                // 一箭双雕
+                if (obj == null) {
+                    return obj + '';
+                }
+                return typeof obj === 'object' || typeof obj === 'function'
+                    ? basicMapping[Object.prototype.toString.call(obj)] ||
+                          'object'
+                    : typeof obj;
+            }
+
+            console.log(' type({}): ', type({}));
+            console.log('type([]): ', type([]));
+            console.log(' type(4234): ', type(4234));
+            console.log('  type(NaN): ', type(NaN));
+            console.log(
+                ' type(function(){}): ',
+                type(function () {})
+            );
+        </script>
+    </body>
+</html>

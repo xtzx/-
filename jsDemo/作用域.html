@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <script type="text/javascript">
+
+
+        const obj = {
+
+            f1() { },
+
+        }
+
+
+        function fn1() {
+            console.log("1")
+
+            function fn2() {
+                console.log("2")
+
+                function fn3() {
+                    console.log("3")
+
+                    function fn4() {
+                        console.log("4")
+                    }
+
+                    fn4();
+                }
+
+                fn3();
+            }
+
+            fn2();
+        }
+        // fn1()
+
+
+
+        var a = 1;
+        function fn10() {
+            console.log('fn10', a);
+        }
+
+        function fn11() {
+            var a = 2;
+            fn10();
+            console.log('fn11', a);
+        }
+        // fn11();
+
+        // hasProps = (list, propsname) => {
+        //     return list.some(item => (item[propsname]));
+        // }
+
+        // const arr = [{}, {}, { a: 1, b: 2, c: 3 }]
+        // const arr2 = [{}, {}, { a: 1, b: 2, c: 3, d: 4 }]
+        // console.log('hasProps(arr,  ', hasProps(arr, 'd'));
+        // console.log('hasProps(arr2,  ', hasProps(arr2, 'd'));
+
+
+        // GlobalExectionContext = {
+        //     LexicalEnvironment: {
+        //         EnvironmentRecord: {
+        //             Type: "Object",
+        //             // 在这里绑定标识符
+        //         },
+        //         outer: '<null>'
+        //     }
+        // }
+
+        // FunctionExectionContext = {
+        //     LexicalEnvironment: {
+        //         EnvironmentRecord: {
+        //             Type: "Declarative",
+        //             // 在这里绑定标识符
+        //         },
+        //         outer: '<Global or outer function environment reference>'
+        //     }
+        // }
+
+        // ExecutionContext = {
+        //     ThisBinding = '< this value >',
+        //     LexicalEnvironment = { ... },
+        //     VariableEnvironment = { ... },
+        // }
+
+
+
+
+        // let a = 20;
+        // const b = 30;
+        // var c;
+
+        // function multiply(e, f) {
+        //     var g = 20;
+        //     return e * f * g;
+        // }
+
+        // c = multiply(20, 30);
+
+        // GlobalExectionContext = {
+
+        //     ThisBinding: '<Global Object>',
+
+        //     LexicalEnvironment: {
+        //         EnvironmentRecord: {
+        //             Type: "Object",
+        //             // 在这里绑定标识符
+        //             a: '< uninitialized >',
+        //             b: '< uninitialized >',
+        //             multiply: '< func >'
+        //         },
+        //         outer: '<null>'
+        //     },
+
+        //     VariableEnvironment: {
+        //         EnvironmentRecord: {
+        //             Type: "Object",
+        //             // 在这里绑定标识符
+        //             c: undefined,
+        //         },
+        //         outer: '<null>'
+        //     },
+        // },
+
+        //     FunctionExectionContext = {
+        //         ThisBinding: '<Global Object>',
+
+        //         LexicalEnvironment: {
+        //             EnvironmentRecord: {
+        //                 Type: "Declarative",
+        //                 // 在这里绑定标识符
+        //                 Arguments: { 0: 20, 1: 30, length: 2 },
+        //             },
+        //             outer: '<GlobalLexicalEnvironment>'
+        //         },
+
+        //         VariableEnvironment: {
+        //             EnvironmentRecord: {
+        //                 Type: "Declarative",
+        //                 // 在这里绑定标识符
+        //                 g: undefined
+        //             },
+        //             outer: '<GlobalLexicalEnvironment>'
+        //         },
+        //     }
+
+        var a = 2; (function IIFE() {
+            console.log(a);
+        })();
+
+
+    </script>
+</body>
+
+</html>

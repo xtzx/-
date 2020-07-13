@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+    </head>
+    <body>
+        <script>
+            function deepClone(obj) {
+                var _toString = Object.prototype.toString;
+
+                // null, undefined, non-object, function
+                if (!obj || typeof obj !== 'object') {
+                    return obj;
+                    console.log('null, undefined, non-object, function');
+                }
+
+                // DOM Node
+                if (obj.nodeType && 'cloneNode' in obj) {
+                    return obj.cloneNode(true);
+                    console.log('DOM Node');
+                }
+
+                // Date
+                if (_toString.call(obj) === '[object Date]') {
+                    return new Date(obj.getTime());
+                    console.log('Date');
+                }
+
+                // RegExp
+                if (_toString.call(obj) === '[object RegExp]') {
+                    var flags = [];
+                    if (obj.global) {
+                        flags.push('g');
+                    }
+                    if (obj.multiline) {
+                        flags.push('m');
+                    }
+                    if (obj.ignoreCase) {
+                        flags.push('i');
+                    }
+                    // console.log("RegExp");
+                    return new RegExp(obj.source, flags.join(''));
+                }
+
+                var result = Array.isArray(obj) ? [] : {};
+                // console.log(result);
+
+                for (var key in obj) {
+                    result[key] = deepClone(obj[key]);
+                }
+
+                return result;
+            }
+
+            // ------------------------
+            // 创建指定深度广度的对象
+            function createData(deep = 0, breadth = 0) {
+                const root = {};
+                let pointer = root;
+                for (let i = 0; i < deep; i++) {
+                    pointer.data = {};
+                    pointer = pointer.data;
+                    for (let j = 0; j < breadth && i === deep - 1; j++) {
+                        pointer[j] = j;
+                    }
+                }
+                return root;
+            }
+            JSON.parse(JSON.stringify(createData(3000)));
+            // Uncaught RangeError: Maximum call stack size exceeded
+            // 层级够深时,会报错，这个拷贝也是不安全的
+
+            // ------------------------
+            function cloneFunction(func) {
+                const bodyReg = /(?<={)(.|\n)+(?=})/m;
+                const paramReg = /(?<=\().+(?=\)\s+{)/;
+                const funcString = func.toString();
+                if (func.prototype) {
+                    const param = paramReg.exec(funcString);
+                    const body = bodyReg.exec(funcString);
+                    if (body) {
+                        if (param) {
+                            const paramArr = param[0].split(',');
+                            return new Function(...paramArr, body[0]);
+                        } else {
+                            return new Function(body[0]);
+                        }
+                    } else {
+                        return null;
+                    }
+                } else {
+                    return eval(funcString);
+                }
+            }
+            function a(bbb) {
+                console.log('bbb: ', bbb);
+                alert(1);
+            }
+            const b = cloneFunction(a);
+            console.log('b: ', b);
+        </script>
+    </body>
+</html>

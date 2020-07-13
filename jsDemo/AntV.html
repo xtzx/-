@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0, user-scalable=no"
+        />
+        <meta name="chart-name" content="基础柱状图" />
+        <title>F2 图表组件库 - AntV</title>
+        <link
+            rel="stylesheet"
+            href="https://gw.alipayobjects.com/os/rmsportal/YmDAMEQVbLJpVbKiRQVX.css"
+        />
+    </head>
+    <body>
+        <script>
+            /*Fixing iframe window.innerHeight 0 issue in Safari*/ document.body
+                .clientHeight;
+        </script>
+
+        <script src="https://gw.alipayobjects.com/os/antv/assets/f2/3.4.2/f2.min.js"></script>
+
+        <script src="https://gw.alipayobjects.com/os/antv/assets/lib/jquery-3.2.1.min.js"></script>
+        <!-- 在 PC 上模拟 touch 事件 -->
+        <script src="https://gw.alipayobjects.com/os/rmsportal/NjNldKHIVQRozfbAOJUW.js"></script>
+
+        <div class="chart-wrapper">
+            <canvas id="mountNode"></canvas>
+        </div>
+        <script>
+            var data = [
+                {
+                    year: '1951 年',
+                    sales: 38
+                },
+                {
+                    year: '1952 年',
+                    sales: 52
+                },
+                {
+                    year: '1956 年',
+                    sales: 61
+                },
+                {
+                    year: '1957 年',
+                    sales: 145
+                },
+                {
+                    year: '1958 年',
+                    sales: 48
+                },
+                {
+                    year: '1959 年',
+                    sales: 38
+                },
+                {
+                    year: '1960 年',
+                    sales: 38
+                },
+                {
+                    year: '1962 年',
+                    sales: 38
+                }
+            ];
+            var chart = new F2.Chart({
+                id: 'mountNode',
+                pixelRatio: window.devicePixelRatio
+            });
+
+            chart.source(data, {
+                sales: {
+                    tickCount: 5
+                }
+            });
+            chart.tooltip({
+                showItemMarker: false,
+                onShow: function onShow(ev) {
+                    var items = ev.items;
+                    items[0].name = null;
+                    items[0].name = items[0].title;
+                    items[0].value = '¥ ' + items[0].value;
+                }
+            });
+            chart.interval().position('year*sales');
+            chart.render();
+        </script>
+    </body>
+</html>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <title>Document</title>
+    </head>
+    <body>
+        <!-- <input
+            type="file"
+            id="input"
+            onchange="handleFiles2(this.files)"
+            multiple
+        />
+
+        <form name="uploadForm">
+            <p>
+                <input
+                    id="uploadInput"
+                    type="file"
+                    name="myFiles"
+                    onchange="updateSize();"
+                    multiple
+                />
+                selected files: <span id="fileNum">0</span>; total size:
+                <span id="fileSize">0</span>
+            </p>
+            <p><input type="submit" value="Send file" /></p>
+        </form> -->
+        <input type="file" onchange="previewFile()" />
+        <img src="" height="200" />
+
+        <script>
+            function previewFile() {
+                var preview = document.querySelector('img');
+                var file = document.querySelector('input[type=file]').files[0];
+                var reader = new FileReader();
+                reader.addEventListener(
+                    'load',
+                    function() {
+                        debugger;
+                        preview.src = reader.result;
+                        
+                    },
+                    false
+                );
+                if (file) {
+                    reader.readAsDataURL(file);
+                }
+            }
+
+            // const inputElement = document.getElementById('input');
+
+            // inputElement.addEventListener('change', handleFiles, false);
+
+            // function handleFiles() {
+            //     const fileList = this.files;
+            //     console.log('fileList: ', fileList, this);
+            // }
+
+            // function handleFiles2(parmam) {
+            //     console.log('parmam: ', parmam);
+            // }
+
+            // function updateSize() {
+            //     let nBytes = 0,
+            //         oFiles = document.getElementById('uploadInput').files,
+            //         nFiles = oFiles.length;
+            //     for (let nFileId = 0; nFileId < nFiles; nFileId++) {
+            //         nBytes += oFiles[nFileId].size;
+            //     }
+            //     let sOutput = nBytes + ' bytes';
+            //     // optional code for multiples approximation
+            //     for (
+            //         let aMultiples = [
+            //                 'KiB',
+            //                 'MiB',
+            //                 'GiB',
+            //                 'TiB',
+            //                 'PiB',
+            //                 'EiB',
+            //                 'ZiB',
+            //                 'YiB'
+            //             ],
+            //             nMultiple = 0,
+            //             nApprox = nBytes / 1024;
+            //         nApprox > 1;
+            //         nApprox /= 1024, nMultiple++
+            //     ) {
+            //         sOutput =
+            //             nApprox.toFixed(3) +
+            //             ' ' +
+            //             aMultiples[nMultiple] +
+            //             ' (' +
+            //             nBytes +
+            //             ' bytes)';
+            //     }
+            //     // end of optional code
+            //     document.getElementById('fileNum').innerHTML = nFiles;
+            //     document.getElementById('fileSize').innerHTML = sOutput;
+            // }
+        </script>
+    </body>
+</html>

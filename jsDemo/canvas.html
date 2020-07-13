@@ -1,0 +1,208 @@
+<html>
+    <head>
+        <title>Canvas tutorial</title>
+        <style type="text/css">
+            canvas {
+                border: 1px solid black;
+            }
+        </style>
+    </head>
+    <body onload="drawTutorial();">
+        <canvas id="tutorial" width="300" height="150"></canvas>
+        <!-- <canvas id="canvas" width="500" height="400"></canvas> -->
+
+        <script type="text/javascript">
+            function drawTutorial() {
+                var canvas = document.getElementById('tutorial');
+                if (canvas.getContext) {
+                    var ctx = canvas.getContext('2d');
+                    console.log('ctx: ', ctx);
+
+                    ctx.fillStyle = 'rgb(200,0,0)';
+                    ctx.fillRect(10, 10, 55, 50);
+
+                    ctx.fillStyle = 'rgba(0, 0, 200, 0.5)';
+                    ctx.fillRect(30, 30, 55, 50);
+                }
+            }
+
+            // function draw() {
+            //     var canvas = document.getElementById('canvas');
+            //     if (canvas.getContext) {
+            //         var ctx = canvas.getContext('2d');
+
+            //         ctx.beginPath();
+            //         ctx.moveTo(75, 50);
+            //         ctx.lineTo(100, 75);
+            //         ctx.lineTo(100, 25);
+            //         ctx.fill();
+            //     }
+            // }
+            draw();
+            function draw() {
+                var canvas = document.getElementById('canvas');
+                if (canvas.getContext) {
+                    var ctx = canvas.getContext('2d');
+
+                    // 填充三角形
+                    ctx.beginPath();
+                    ctx.moveTo(25, 25);
+                    ctx.lineTo(105, 25);
+                    ctx.lineTo(25, 105);
+                    ctx.fill();
+
+                    // 描边三角形
+                    ctx.beginPath();
+                    ctx.moveTo(125, 125);
+                    ctx.lineTo(125, 45);
+                    ctx.lineTo(45, 125);
+                    ctx.closePath();
+                    ctx.stroke();
+                }
+            }
+
+            function draw() {
+                var ctx = document.getElementById('canvas').getContext('2d');
+                for (var i = 0; i < 6; i++) {
+                    for (var j = 0; j < 6; j++) {
+                        ctx.fillStyle =
+                            'rgb(' +
+                            Math.floor(255 - 42.5 * i) +
+                            ',' +
+                            Math.floor(255 - 42.5 * j) +
+                            ',0)';
+                        ctx.fillRect(j * 25, i * 25, 25, 25);
+                    }
+                }
+            }
+
+            function draw() {
+                var ctx = document.getElementById('canvas').getContext('2d');
+                for (var i = 0; i < 10; i++) {
+                    ctx.lineWidth = 1 + i;
+                    ctx.beginPath();
+                    ctx.moveTo(5 + i * 14, 5);
+                    ctx.lineTo(5 + i * 14, 140);
+                    ctx.stroke();
+                }
+                // ctx.rotate(Math.PI);
+            }
+
+            var lineargradient = ctx.createLinearGradient(0, 0, 150, 150);
+            var radialgradient = ctx.createRadialGradient(
+                75,
+                75,
+                0,
+                75,
+                75,
+                100
+            );
+            var lineargradient = ctx.createLinearGradient(0, 0, 150, 150);
+            lineargradient.addColorStop(0, 'white');
+            lineargradient.addColorStop(1, 'black');
+
+            function draw() {
+                var ctx = document.getElementById('canvas').getContext('2d');
+                ctx.font = '48px sans-serif';
+                ctx.fillText('Hello world', 10, 50);
+                // ctx.strokeText('Hello world', 10, 50);
+            }
+
+            function draw() {
+                var ctx = document.getElementById('canvas').getContext('2d');
+
+                ctx.fillRect(0, 0, 150, 150); // 使用默认设置绘制一个矩形
+                ctx.save(); // 保存默认状态
+
+                ctx.fillStyle = '#09F'; // 在原有配置基础上对颜色做改变
+                ctx.fillRect(15, 15, 120, 120); // 使用新的设置绘制一个矩形
+
+                ctx.save(); // 保存当前状态
+                ctx.fillStyle = '#FFF'; // 再次改变颜色配置
+                ctx.globalAlpha = 0.5;
+                ctx.fillRect(30, 30, 90, 90); // 使用新的配置绘制一个矩形
+
+                ctx.restore(); // 重新加载之前的颜色状态
+                ctx.fillRect(45, 45, 60, 60); // 使用上一次的配置绘制一个矩形
+
+                ctx.restore(); // 加载默认颜色配置
+                ctx.fillRect(60, 60, 30, 30); // 使用加载的配置绘制一个矩形
+            }
+
+            function draw() {
+                var ctx = document.getElementById('canvas').getContext('2d');
+                ctx.translate(75, 75);
+
+                for (var i = 1; i < 6; i++) {
+                    // Loop through rings (from inside to out)
+                    ctx.save();
+                    ctx.fillStyle =
+                        'rgb(' + 51 * i + ',' + (255 - 51 * i) + ',255)';
+
+                    for (var j = 0; j < i * 6; j++) {
+                        // draw individual dots
+                        ctx.rotate((Math.PI * 2) / (i * 6));
+                        ctx.beginPath();
+                        ctx.arc(0, i * 12.5, 5, 0, Math.PI * 2, true);
+                        ctx.fill();
+                    }
+
+                    ctx.restore();
+                }
+            }
+
+            function draw() {
+                var ctx = document.getElementById('canvas').getContext('2d');
+
+                var sin = Math.sin(Math.PI / 6);
+                var cos = Math.cos(Math.PI / 6);
+                ctx.translate(100, 100);
+                var c = 0;
+                for (var i = 0; i <= 12; i++) {
+                    c = Math.floor((255 / 12) * i);
+                    ctx.fillStyle = 'rgb(' + c + ',' + c + ',' + c + ')';
+                    ctx.fillRect(0, 0, 100, 10);
+                    ctx.transform(cos, sin, -sin, cos, 0, 0);
+                }
+
+                // ctx.setTransform(-1, 0, 0, 1, 100, 100);
+                // ctx.fillStyle = 'rgba(255, 128, 255, 0.5)';
+                // ctx.fillRect(0, 50, 100, 100);
+            }
+
+            function draw() {
+                var canvas = document.getElementById('canvas');
+                if (canvas.getContext) {
+                    var ctx = canvas.getContext('2d');
+
+                    for (var i = 0; i < 4; i++) {
+                        for (var j = 0; j < 3; j++) {
+                            ctx.beginPath();
+                            var x = 25 + j * 50; // x 坐标值
+                            var y = 25 + i * 50; // y 坐标值
+                            var radius = 20; // 圆弧半径
+                            var startAngle = 0; // 开始点
+                            var endAngle = Math.PI + (Math.PI * j) / 2; // 结束点
+                            var anticlockwise = i % 2 == 0 ? false : true; // 顺时针或逆时针
+
+                            ctx.arc(
+                                x,
+                                y,
+                                radius,
+                                startAngle,
+                                endAngle,
+                                anticlockwise
+                            );
+
+                            if (i > 1) {
+                                ctx.fill();
+                            } else {
+                                ctx.stroke();
+                            }
+                        }
+                    }
+                }
+            }
+        </script>
+    </body>
+</html>

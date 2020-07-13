@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <title>Document</title>
+    </head>
+    <body>
+        <div id="app">33</div>
+
+        <script id="worker" type="app/worker">
+            let a = 1000000000;
+
+            while(a){
+                a--;
+            }
+
+            addEventListener('message', function () {
+                const error = new Error('54')
+                const fun = function(){}
+                const reg = /[a-Z]/
+                postMessage({error,fun,reg});
+                self.close();
+            }, false);
+        </script>
+
+        <script>
+            // const worker = new Worker('WebWorker2.js');
+            // console.log('worker: ', worker);
+            // worker.postMessage({});
+
+            // var blob = new Blob([
+            //     document.querySelector('#worker').textContent,
+            // ]);
+            // var url = window.URL.createObjectURL(blob);
+
+            // var worker = new Worker(url);
+            // worker.postMessage({
+            //     a: 'bbb',
+            // });
+            // worker.onmessage = function (e) {
+            //     console.log('e: ', e.data);
+            //     // e.data === 'some message'
+            //     worker.postMessage({
+            //         a: 'bbb',
+            //     });
+            // };
+
+            var worker = new Worker('fibonacci.js');
+            worker.onmessage = function (event) {
+                console.log('event: ', event.data);
+                // document.getElementById('result').textContent = event.data;
+                dump('Got: ' + event.data + '\n');
+            };
+            worker.onerror = function (error) {
+                dump('Worker error: ' + error.message + '\n');
+                throw error;
+            };
+            worker.postMessage(6);
+        </script>
+    </body>
+</html>

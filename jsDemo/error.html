@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <title>Document</title>
+    </head>
+    <body>
+        <script>
+            const err = new Error('出错了');
+            err.message; // "出错了"
+
+            function throwit() {
+                throw new Error('');
+            }
+
+            function catchit() {
+                try {
+                    throwit();
+                } catch (e) {
+                    console.log(e.stack); // print stack trace
+                }
+            }
+
+            catchit();
+            // Error
+            //    at throwit (~/examples/throwcatch.js:9:11)
+            //    at catchit (~/examples/throwcatch.js:3:9)
+            //    at repl:1:5
+
+            // window.onerror = function(event, message, url, line) {
+            //     console.log('event: ', event);
+            //     console.log('message, url, line: ', message, url, line);
+            //     // return false;
+            //     event.preventDefault(); // error.html:36 Uncaught TypeError: event.preventDefault is not a function
+            // };
+
+            // throw new RangeError('ni xx');
+
+            const img = new Image();
+            img.addEventListener(
+                'error',
+                event => {
+                    console.log('event: ', event);
+                },
+                false
+            );
+            img.src = 'smilex.gif'; //指定不存在的文件
+        </script>
+    </body>
+</html>

@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+    </head>
+    <body>
+        <!-- <script>
+            // const obj = {
+            //     foo: function () {
+            //         console.log(this);
+            //     },
+            //     foo2: () => {
+            //         console.log(this);
+            //     },
+            // };
+            // obj
+            // obj.foo();
+            // window
+            // obj.foo2();
+
+            // 下面这几种用法，都会改变this的指向 window
+            // (obj.foo = obj.foo)();
+            // (false || obj.foo)();
+            // (1, obj.foo)();
+            // obj.foo就是一个值。
+            // 这个值真正调用的时候，运行环境已经不是obj了，而是全局环境，所以this不再指向obj。
+
+            var $Array = Array;
+            var ArrayPrototype = $Array.prototype;
+            var $Object = Object;
+            var array_push = ArrayPrototype.push;
+            var array_slice = ArrayPrototype.slice;
+            var array_join = ArrayPrototype.join;
+            var array_concat = ArrayPrototype.concat;
+            var $Function = Function;
+            var FunctionPrototype = $Function.prototype;
+            var apply = FunctionPrototype.apply;
+            var max = Math.max;
+            // 简版 源码更复杂些。
+            var isCallable = function isCallable(value) {
+                if (typeof value !== 'function') {
+                    return false;
+                }
+                return true;
+            };
+            var Empty = function Empty() {};
+            // 源码是 defineProperties
+            // 源码是bind笔者改成bindFn便于测试
+            FunctionPrototype.bindFn = function bind(that) {
+                var target = this;
+                if (!isCallable(target)) {
+                    throw new TypeError(
+                        'Function.prototype.bind called on incompatible ' +
+                            target
+                    );
+                }
+                var args = array_slice.call(arguments, 1);
+                var bound;
+                var binder = function () {
+                    if (this instanceof bound) {
+                        var result = apply.call(
+                            target,
+                            this,
+                            array_concat.call(args, array_slice.call(arguments))
+                        );
+                        if ($Object(result) === result) {
+                            return result;
+                        }
+                        return this;
+                    } else {
+                        return apply.call(
+                            target,
+                            that,
+                            array_concat.call(args, array_slice.call(arguments))
+                        );
+                    }
+                };
+                var boundLength = max(0, target.length - args.length);
+                var boundArgs = [];
+                for (var i = 0; i < boundLength; i++) {
+                    array_push.call(boundArgs, '$' + i);
+                }
+                // 这里是Function构造方式生成形参length $1, $2, $3...
+                bound = $Function(
+                    'binder',
+                    'return function (' +
+                        array_join.call(boundArgs, ',') +
+                        '){ return binder.apply(this, arguments); }'
+                )(binder);
+                if (target.prototype) {
+                    Empty.prototype = target.prototype;
+                    bound.prototype = new Empty();
+                    Empty.prototype = null;
+                }
+                return bound;
+            };
+
+            const obj = {
+                a: 2,
+                fn: function (...PARAMS) {
+                    console.log('PARAMS: ', PARAMS);
+                    console.log('this.a: ', this.a);
+                    return this.a;
+                },
+            };
+
+            // const fn2 = obj.fn.bind({ a: 4 }, 39, 342, 432);
+
+            // const obj2 = new fn2();
+            // console.log('obj2: ', obj2);
+
+            const fn4 = obj.fn.bindFn({ a: 6 });
+            fn4(43);
+            const obj4 = new fn4();
+            console.log('obj4: ', obj4);
+
+            window.onerror = (e) => {
+                console.log('e: ', e);
+            };
+
+            g
+        </script> -->
+
+        <script>
+            function fn() {
+                this.thisFn = function () {};
+                var privateFn = function () {};
+            }
+            fn.outFn = function () {};
+            fn.prototype.prototypeFn = function () {};
+
+            // error
+            // fn.thisFn();
+
+            // error
+            // fn.privateFn();
+
+            fn.outFn();
+
+            // error
+            // fn.prototypeFn();
+
+            const newFn = new fn();
+            newFn.thisFn();
+
+            // error
+            // newFn.privateFn();
+
+            // error
+            // newFn.outFn();
+
+            newFn.prototypeFn();
+        </script>
+    </body>
+</html>

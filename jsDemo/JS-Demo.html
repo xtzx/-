@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <title>Document</title>
+    </head>
+    <body>
+        <script>
+            ('use strict');
+            // var x = 1;
+
+            // function foo(
+            //     x,
+            //     y = function() {
+            //         x = 2;
+            //     }
+            // ) {
+            //     // var x = 3;
+            //     y();
+            //     console.log(x);
+            // }
+            // foo(); // 3
+            // console.log(x);
+            // window.addEventListener('message', foo());
+
+            // function throwIfMissing() {
+            //     throw new Error('Missing parameter');
+            // }
+            // function foo2(mustBeProvided = throwIfMissing()) {
+            //     return mustBeProvided;
+            // }
+            // foo2(3);
+
+            // var f = function() {};
+            // console.log('f.name: ', f.name);
+
+            // y = function() {
+            //     x = 2;
+            // };
+
+            // foo(10, y);
+
+            function mixArgs(first, second) {
+                'use strict';
+                console.log(first === arguments[0]);
+                console.log(second === arguments[1]);
+                first = 'c';
+                second = 'd';
+                console.log(first === arguments[0]);
+                console.log(second === arguments[1]);
+            }
+
+            // mixArgs('a', 'b');
+
+            // function mixArgs(first, second = 'b') {
+
+            //     console.log(arguments.length);
+
+            //     console.log(first === arguments[0]);
+
+            //     console.log(second === arguments[1]);
+
+            //     first = 'c';
+
+            //     second = 'd';
+
+            //     console.log(first === arguments[0]);
+
+            //     console.log(second === arguments[1]);
+            // }
+
+            // mixArgs('a');
+
+            if (true) {
+                // 在 ES5 会抛出语法错误， ES6 则不会
+                function doSomething() {
+                    console.log('doSomething: ');
+                }
+                // console.log(typeof doSomething);
+            }
+
+            // doSomething();
+            // console.log(typeof doSomething);
+
+            const cart = {
+                wheels: 4,
+                get wheels() {
+                    return 8;
+                },
+                set wheels(value) {
+                    if (value < this.wheels) {
+                        throw new Error('数值太小了！');
+                    }
+                    this.wheels = value;
+                }
+            };
+
+            // cart.wheels = 9;
+            // console.log('cart: ', cart);
+
+            var obj = {
+                a: 1,
+                0: 1,
+                c: 1,
+                2: 1,
+                d: 1,
+                1: 1
+            };
+            obj.b = 1;
+            // console.log(Object.getOwnPropertyNames(obj).join('')); // "012acbd"
+            // console.log(Object.keys(obj).join('')); // "012acbd"
+
+            // let person = {
+            //     getGreeting() {
+            //         return 'Hello';
+            //     }
+            // };
+
+            // let dog = {
+            //     getGreeting() {
+            //         return 'Woof';
+            //     }
+            // };
+
+            // let friend = {
+            //     getGreeting() {
+            //         return (
+            //             Object.getPrototypeOf(this).getGreeting.call(this) +
+            //             ', hi!'
+            //         );
+            //     }
+            // };
+            // let friend = {
+            //     getGreeting: function() {
+            //         // 语法错误
+
+            //         return super.getGreeting() + ', hi!';
+            //     }
+            // };
+
+            // let friend = {
+            //     getGreeting() {
+            //         // 这相当于上个例子中的：
+
+            //         // Object.getPrototypeOf(this).getGreeting.call(this)
+
+            //         return super.getGreeting() + ', hi!';
+            //     }
+            // };
+            // Object.setPrototypeOf(friend, person);
+
+            let person = {
+                getGreeting() {
+                    return 'Hello';
+                }
+            };
+
+            // 原型为 person
+            let friend = {
+                getGreeting() {
+                    return super.getGreeting() + ', hi!';
+                }
+            };
+            Object.setPrototypeOf(friend, person);
+
+            // 原型为 friend
+            let relative = Object.create(friend);
+
+            console.log(person.getGreeting());
+            // "Hello"
+            console.log(friend.getGreeting());
+            // "Hello, hi!"
+            console.log(relative.getGreeting());
+            // error!
+        </script>
+    </body>
+</html>

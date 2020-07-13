@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <title>Document</title>
+    </head>
+
+    <body>
+        ddd
+        <script>
+            // class Foo {
+            //     constructor() {
+            //         return Object.create(null); //constructor函数返回一个全新的对象，结果导致实例对象不是Foo类的实例
+            //     }
+            // }
+            // const foo = new Foo();
+            // console.log('foo: ', foo);
+
+            // let person = new (class {
+            //     constructor(name) {
+            //         this.name = name;
+            //     }
+            //     sayName() {
+            //         console.log(this.name);
+            //     }
+            // })('张三');
+            // person.sayName(); // "张三"
+
+            class Logger1 {
+                print() {
+                    console.log(this);
+                }
+                print2 = () => {
+                    console.log(this);
+                };
+                static baz() {
+                    console.log('hello');
+                }
+            }
+
+            const logger2 = new Logger1();
+            logger2.print();
+            console.log('logger2: ', logger2);
+
+            const fn3 = Logger1.prototype.print;
+            console.log('fn3: ', fn3);
+
+            // const obj = {
+            //     fn() {
+            //         console.log(this);
+            //     }
+            // };
+
+            // // obj.fn()
+            // console.dir('obj: ', obj);
+
+            // const fn4 = obj.fn;
+            // fn4();
+            // console.log('--------');
+
+            // function constructor() {
+            //     this.fn = function() {
+            //         console.log(this);
+            //     };
+            // }
+
+            // const obj2 = new constructor();
+            // const fn5 = obj2.fn;
+            // fn5();
+            // obj2.fn();
+        </script>
+    </body>
+</html>

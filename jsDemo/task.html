@@ -1,0 +1,65 @@
+<html>
+    <body>
+        <div id="mian_div">
+            <li id="time_li">time</li>
+            <li>geekbang</li>
+        </div>
+
+        <p id="demo">强制布局demo</p>
+        <button onclick="foo()">添加新元素</button>
+        <button onclick="foo2()">click</button>
+
+        <script>
+            // function foo() {
+            //     let main_div = document.getElementById('mian_div');
+            //     let new_node = document.createElement('li');
+            //     let textnode = document.createTextNode('time.geekbang');
+            //     new_node.appendChild(textnode);
+            //     document.getElementById('mian_div').appendChild(new_node);
+            // }
+
+            // function foo2() {
+            //     location.href = 'http://www.baidu.com';
+            //     setTimeout(() => {
+            //         console.log(1);
+            //     }, 100);
+            //     console.log(2);
+            // }
+            const a = 1;
+            console.log(1);
+
+            function f1() {
+                const a = 1;
+                return a + 1;
+            }
+
+            f1();
+
+            setTimeout(() => {
+                // 38
+                f1();
+                console.log(a);
+            }, 2000);
+
+            setTimeout(() => {
+                // 43
+                console.log(a);
+            }, 1000);
+
+            if (a === 1) {
+                let b = 3;
+                console.log('b: ', b);
+                setTimeout(() => {
+                    //50
+                    f1();
+                    console.log(b);
+                }, 3000);
+            }
+
+            function foo2() {
+                location.href = 'http://bxxxxaidu.com';
+                console.log(123);
+            }
+        </script>
+    </body>
+</html>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <title>Document</title>
+        <style>
+            div {
+                width: 100px;
+                height: 100px;
+                /* float: left; */
+                /* display: inline-block; */
+                /* position: absolute; */
+                background-color: blue;
+                /* margin: 10px; */
+            }
+            /* #css {
+                display: flex;
+                flex-direction: row;
+                flex-wrap: wrap;
+            } */
+        </style>
+    </head>
+    <body>
+        <main id="css"></main>
+
+        <script>
+            const box = document.getElementById('css');
+            for (let i = 0; i < 1000; i++) {
+                const div = document.createElement('div');
+                div.style.left = 10 + 100 * i + 'px';
+                box.appendChild(div);
+            }
+
+            window.onload = function() {
+                setTimeout(function() {
+                    let t = performance.timing;
+                    console.log(
+                        'DNS查询耗时 ：' +
+                            (t.domainLookupEnd - t.domainLookupStart).toFixed(0)
+                    );
+                    console.log(
+                        'TCP链接耗时 ：' +
+                            (t.connectEnd - t.connectStart).toFixed(0)
+                    );
+                    console.log(
+                        'request请求耗时 ：' +
+                            (t.responseEnd - t.responseStart).toFixed(0)
+                    );
+                    console.log(
+                        '解析dom树耗时 ：' +
+                            (t.domComplete - t.domInteractive).toFixed(0)
+                    );
+                    console.log(
+                        '白屏时间 ：' +
+                            (t.responseStart - t.navigationStart).toFixed(0)
+                    );
+                    console.log(
+                        'domready时间 ：' +
+                            (
+                                t.domContentLoadedEventEnd - t.navigationStart
+                            ).toFixed(0)
+                    );
+                    console.log(
+                        'onload时间 ：' +
+                            (t.loadEventEnd - t.navigationStart).toFixed(0)
+                    );
+                    if ((t = performance.memory)) {
+                        console.log(
+                            'js内存使用占比 ：' +
+                                (
+                                    (t.usedJSHeapSize / t.totalJSHeapSize) *
+                                    100
+                                ).toFixed(2) +
+                                '%'
+                        );
+                    }
+                });
+            };
+        </script>
+    </body>
+</html>

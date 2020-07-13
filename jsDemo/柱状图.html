@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html>
+    <head lang="en">
+        <meta charset="UTF-8" />
+        <title></title>
+        <style>
+            /* .div {
+                width: 700px;
+                height: 400px;
+            } */
+            .canvas-main {
+                width: 300px;
+                height: 250px;
+                border: 1px solid red;
+                white-space: nowrap;
+                overflow: auto;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="canvas-main">
+            <!-- <div class="canvas-main" width="400" height="200"> -->
+            <canvas id="barChart" height="200">
+                您的浏览器不支持HTML5 canvas
+            </canvas>
+            <!-- </div> -->
+        </div>
+
+        <script type="text/javascript">
+            const canvasq = document.getElementById('barChart');
+            // canvasq.width = 200;
+            // canvasq.height = 100;
+            //
+            function goBarChart(dataArr) {
+                // 声明所需变量
+                let canvas, ctx;
+
+                // 图表属性
+                // cMargin是图表的margin-left和bottom值、cWidth是x轴长度、cSpace绘制字体的最大宽度、cHeight是y轴高度
+                let cWidth, cHeight, cMargin, cSpace;
+
+                // originX、originY是原点位置坐标
+                let originX, originY;
+
+                // 柱状图属性
+                // maxValue是y轴最大值、totalYNomber是y轴分成多少格、tobalBars是柱子的数量、bWidth是柱子宽度、bMargin是柱子间距
+                let bMargin, tobalBars, bWidth, maxValue;
+                let totalYNomber;
+
+                // 运动相关变量
+                let ctr, numctr, speed;
+
+                //鼠标移动
+                const mousePosition = {};
+
+                // 获得canvas上下文
+                canvas = document.getElementById('barChart');
+                canvas.style.width = '600px';
+                canvas.height = 200;
+                canvas.width = 800;
+
+                if (canvas && canvas.getContext) {
+                    ctx = canvas.getContext('2d');
+                }
+
+                initChart(); // 图表初始化
+
+                drawLineLabelMarkers(); // 绘制图表轴、标签和标记
+
+                drawBarAnimate(); // 绘制柱状图的动画
+
+                //检测鼠标移动
+                let mouseTimer = null;
+                canvas.addEventListener('mousemove', function(e) {
+                    e = e || window.event;
+                    if (e.offsetX || e.offsetX == 0) {
+                        mousePosition.x = e.offsetX;
+                        mousePosition.y = e.offsetY;
+                    } else if (e.layerX || e.layerX == 0) {
+                        mousePosition.x = e.layerX;
+                        mousePosition.y = e.layerY;
+                    }
+
+                    clearTimeout(mouseTimer);
+                    mouseTimer = setTimeout(function() {
+                        ctx.clearRect(0, 0, canvas.width, canvas.height);
+                        drawLineLabelMarkers();
+                        drawBarAnimate(true);
+                    }, 10);
+                });
+
+                // 图表初始化
+                function initChart() {
+                    // 图表信息
+                    cMargin = 0;
+                    cSpace = 50;
+
+                    // 这里是对高清屏幕的处理，
+                    // 方法：先将canvas的width 和height设置成本来的两倍
+                    // 然后将style.height 和 style.width设置成本来的宽高
+                    // 这样相当于把两倍的东西缩放到原来的 1/2，这样在高清屏幕上 一个像素的位置就可以有两个像素的值
+                    // 这样需要注意的是所有的宽高间距，文字大小等都得设置成原来的两倍才可以。
+                    // canvas.width = canvas.parentNode.getAttribute('width') * 2;
+                    // canvas.height =
+                    // canvas.parentNode.getAttribute('height') * 2;
+                    // canvas.style.height = canvas.height / 2 + 'px';
+                    canvas.style.height = 200 + 'px';
+                    // canvas.style.width = canvas.width / 2 + 'px';
+
+                    cHeight = 300;
+                    // cHeight = canvas.height - cMargin - cSpace;
+                    cWidth = canvas.width - cMargin - cSpace;
+
+                    originX = cMargin + cSpace;
+                    // debugger;
+                    // originY = cMargin + cHeight;
+                    originY = cMargin + cHeight + 30;
+                    // 柱状图信息
+                    bMargin = 36;
+                    // bMargin = canvas.width / 40;
+                    tobalBars = dataArr.length;
+                    // bWidth = parseInt(cWidth / tobalBars - bMargin);
+                    // console.log('bWidth: ', bWidth);
+                    bWidth = 16;
+                    maxValue = 100;
+                    totalYNomber = 5;
+
+                    // 运动相关
+                    ctr = 1;
+                    numctr = 100;
+                    speed = 10;
+                }
+
+                // 绘制图表轴、标签和标记
+                function drawLineLabelMarkers() {
+                    //ctx.translate(0.5,0.5);  // 当只绘制1像素的线的时候，坐标点需要偏移，这样才能画出1像素实线
+                    ctx.font = '24px Arial';
+                    ctx.lineWidth = 2;
+                    ctx.fillStyle = '#5d5d5d';
+
+                    // y轴
+                    drawLine(originX, originY, originX, cMargin + 30);
+                    // x轴
+                    drawLine(originX, originY, originX + cWidth, originY);
+                    // 绘制标记
+                    drawMarkers();
+                    //ctx.translate(-0.5,-0.5);  // 还原位置
+                }
+
+                // 画线的方法、前两个参数是第一个点坐标、后两个是第二个点坐标
+                function drawLine(x, y, X, Y) {
+                    ctx.beginPath();
+                    ctx.moveTo(x, y);
+                    ctx.lineTo(X, Y);
+                    ctx.stroke();
+                    ctx.closePath();
+                }
+
+                // 绘制标记
+                function drawMarkers() {
+                    ctx.strokeStyle = '#ededed';
+                    // 绘制 y
+                    const oneVal = parseInt(maxValue / totalYNomber);
+                    ctx.textAlign = 'right';
+                    for (let i = 0; i <= totalYNomber; i++) {
+                        const markerVal = i * oneVal;
+                        const xMarker = originX - 10;
+                        const yMarker =
+                            parseInt(cHeight * (1 - markerVal / maxValue)) +
+                            cMargin;
+
+                        ctx.fillText(markerVal, xMarker, yMarker + 30, cSpace); // 文字
+
+                        // 画图表中的虚线
+                        if (i > 0) {
+                            // ctx.fillStyle = '#cdcdcd';
+                            drawLine(
+                                originX + 2,
+                                yMarker + 20,
+                                originX + cWidth,
+                                yMarker + 20
+                            );
+                        }
+                    }
+
+                    // 绘制 x
+                    ctx.textAlign = 'center';
+                    for (let i = 0; i < tobalBars; i++) {
+                        const markerVal = dataArr[i][0];
+                        const xMarker = parseInt(
+                            originX + (bWidth + bMargin) * i + bMargin + 8
+                            // originX +
+                            //     // cWidth * (i / tobalBars) +
+                            //     bMargin +
+                            //     bWidth / 2
+                        );
+                        // debugger;
+                        const yMarker = originY + 30;
+                        ctx.fillText(markerVal, xMarker, yMarker, cSpace); // 文字
+                    }
+                    // 绘制标题 y
+                    // ctx.save();
+                    // ctx.rotate(-Math.PI / 2);
+                    // ctx.fillText('产 量', -canvas.height / 2, cSpace - 10);
+                    // ctx.restore();
+                    // 绘制标题 x
+                    // ctx.fillText(
+                    //     '年份',
+                    //     originX + cWidth / 2,
+                    //     originY + cSpace / 2 + 30
+                    // );
+                }
+
+                //绘制柱形图
+                function drawBarAnimate(mouseMove) {
+                    for (let i = 0; i < tobalBars; i++) {
+                        const oneVal = parseInt(maxValue / totalYNomber);
+                        const barVal = dataArr[i][1];
+                        const barH = parseInt(
+                            (((cHeight * barVal) / maxValue) * ctr) / numctr
+                        );
+                        const y = originY - barH;
+                        console.log('originY: ', originX, originY);
+                        const x = originX + (bWidth + bMargin) * i + bMargin;
+                        drawRect(x, y, bWidth, barH - 1, mouseMove); //高度减一避免盖住x轴
+                        ctx.fillText(
+                            parseInt((barVal * ctr) / numctr),
+                            x + 10,
+                            y - 8
+                        ); // 文字
+                    }
+                    if (ctr < numctr) {
+                        ctr++;
+                        const timer = setTimeout(function() {
+                            ctx.clearRect(0, 0, canvas.width, canvas.height);
+                            drawLineLabelMarkers();
+                            drawBarAnimate();
+                            clearTimeout(timer);
+                        }, speed);
+                    }
+                }
+
+                //绘制方块 参数是矩形的起点位置是 (x, y)、尺寸为 width 和 height。
+                function drawRect(x, y, X, Y, mouseMove) {
+                    ctx.beginPath();
+                    ctx.rect(x, y, X, Y);
+
+                    if (
+                        mouseMove &&
+                        ctx.isPointInPath(
+                            mousePosition.x * 2,
+                            mousePosition.y * 2
+                        )
+                    ) {
+                        //如果是鼠标移动的到柱状图上，重新绘制图表
+                        ctx.fillStyle = 'red';
+                    } else {
+                        ctx.fillStyle = '#1eb955';
+                    }
+                    ctx.fill();
+                    ctx.closePath();
+                }
+            }
+
+            goBarChart([
+                [1, 75],
+                [1.1, 45],
+                [1.2, 96],
+                [3, 70],
+                [4, 80],
+                [10, 95],
+                [10.1, 35],
+                [10.1, 75]
+            ]);
+        </script>
+    </body>
+</html>

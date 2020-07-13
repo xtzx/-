@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>inline-block元素上浮无法对齐的解决办法</title>
+        <style type="text/css">
+            * {
+                border: 0;
+                padding: 0;
+                margin: 0;
+            }
+            body {
+                font-size: 14px;
+            }
+            .wrap {
+                width: 960px;
+                margin: 0 auto;
+                margin-top: 100px;
+                border: 1px solid red;
+            }
+            .a {
+                width: 100px;
+                height: 60px;
+                background-color: #0088ff;
+                color: #fff;
+                display: inline-block;
+            }
+            .b {
+                font-size: 22px;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="wrap">
+            <span class="a">xxx</span>
+            <span class="a"></span>
+            <span class="a">xxxxx</span>
+            <span class="a b">xxxxxx</span>
+        </div>
+    </body>
+</html>

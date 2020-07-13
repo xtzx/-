@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <title>Document</title>
+    </head>
+
+    <body>
+        <div onclick="ddddd()" class="isdiv">
+            12345678901234567890123456789012345
+        </div>
+        <!-- <div class="isdiv">12345678901234567890123456789012345</div> -->
+
+        <script type="text/javascript">
+            function ddddd() {
+                console.log('e: ', this);
+            }
+            const div = document.getElementsByClassName('isdiv')[0];
+            div.addEventListener(
+                'click',
+                {
+                    handleEvent: function(event) {
+                        console.log(
+                            'Element clicked through handleEvent property!',
+                            this
+                        );
+                    }
+                },
+                {
+                    capture: false,
+                    once: true,
+                    passive: true
+                }
+            );
+
+            var myEventTarget = new EventTarget();
+            // console.log('div: ', document.getElementsByClassName('isdiv'));
+            // console.log('div instanceof EventTarget: ', div instanceof EventTarget);
+            // console.log('div instanceof Event: ', div instanceof Event);
+
+            function EventTarget() {
+                this.handlers = {}; // 储存事件处理程序
+            }
+
+            EventTarget.prototype = {
+                constructor: EventTarget,
+                // 用于注册给定类型事件的事件处理程序
+                addHandler: function(type, handler) {
+                    if (typeof this.handlers[type] == 'undefined') {
+                        this.handlers[type] = [];
+                    }
+                    // addHandler()方法接受两个参数：事件类型和用于处理该事件的函数。
+                    // 当调用该方法时，会进行一次检查，看handlers属性中是否已经存在一个针对该事件类型的数组；
+                    // 如果没有，则创建一个新的。然后使用push()将该处理程序添加到数组的末尾。
+                    this.handlers[type].push(handler);
+                },
+
+                // 用于触发一个事件
+                // 法接受一个单独的参数，是一个至少包含type属性的对象。
+                // fire()方法先给event对象设置一个target属性
+                // 如果它尚未被指定的话。然后它就查找对应该事件类型的一组处理程序，调用各个函数，并给出event对象。
+                // 因为这些都是自定义事件， 所以event对象上还需要的额外信息由你自己决定。
+                fire: function(event) {
+                    if (!event.target) {
+                        event.target = this;
+                    }
+                    if (this.handlers[event.type] instanceof Array) {
+                        var handlers = this.handlers[event.type];
+                        for (var i = 0, len = handlers.length; i < len; i++) {
+                            handlers[i](event);
+                        }
+                    }
+                },
+
+                // 用于注销某个事件类型的事件处理程序
+                removeHandler: function(type, handler) {
+                    if (this.handlers[type] instanceof Array) {
+                        var handlers = this.handlers[type];
+                        for (var i = 0, len = handlers.length; i < len; i++) {
+                            if (handlers[i] === handler) {
+                                break;
+                            }
+                        }
+
+                        handlers.splice(i, 1);
+                    }
+                }
+            };
+
+            function handleMessage(event) {
+                console.log('Message received: ' + event.message);
+            }
+
+            //创建一个新对象
+            var target = new EventTarget();
+
+            //添加一个事件处理程序
+            target.addHandler('message', handleMessage);
+
+            //触发事件
+            target.fire({ type: 'message', message: 'Hello world!' });
+
+            //删除事件处理程序
+            target.removeHandler('message', handleMessage);
+
+            //再次，应没有处理程序
+            target.fire({ type: 'message', message: 'Hello world!' });
+
+class DispatcherEvent {
+    constructor(eventName) {
+        this.eventName = eventName;
+        this.callbacks = [];
+    }
+
+    registerCallback(callback) {
+        this.callbacks.push(callback);
+    }
+
+    unregisterCallback(callback) {
+        const index = this.callbacks.indexOf(callback);
+        if (index > -1) {
+            this.callbacks.splice(index, 1);
+        }
+    }
+
+    fire(data) {
+        const callbacks = this.callbacks.slice(0);
+        callbacks.forEach(callback => {
+            callback(data);
+        });
+    }
+}
+
+class Dispatcher {
+    constructor() {
+        this.events = {};
+    }
+
+    dispatch(eventName, data) {
+        const event = this.events[eventName];
+        if (event) {
+            event.fire(data);
+        }
+    }
+
+    on(eventName, callback) {
+        let event = this.events[eventName];
+        if (!event) {
+            event = new DispatcherEvent(eventName);
+            this.events[eventName] = event;
+        }
+        event.registerCallback(callback);
+    }
+
+    off(eventName, callback) {
+        const event = this.events[eventName];
+        if (event && event.callbacks.indexOf(callback) > -1) {
+            event.unregisterCallback(callback);
+            if (event.callbacks.length === 0) {
+                delete this.events[eventName];
+            }
+        }
+    }
+}
+        </script>
+    </body>
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>使用canvas画同心渐变圆</title>
+    </head>
+    <body>
+        <canvas id="canvasEle"></canvas>
+    </body>
+    <script>
+        // 圆环开始的位置的颜色
+        var ringSartColor;
+        // 圆环结束的位置的颜色
+        var ringEndColor;
+        // canvas标签的id
+        var canvasId;
+        function initCanvas(canvasId, ringSartColor, ringEndColor) {
+            var myCanvas = document.getElementById(canvasId);
+            var context = myCanvas.getContext('2d');
+            // 通过修改中间的值可以改变圆中颜色的饱和度:圆环
+            // createLinearGradient(x0,y0,x1,y1)；
+            // 参数分别是渐变开始的x0、y0坐标；渐变结束点的x1、y1坐标
+            // var ring = context.createLinearGradient(0,90,90,0);
+            var ring = context.createLinearGradient(0, 60, 60, 0);
+            ring.addColorStop('0', ringSartColor);
+            ring.addColorStop('1.0', ringEndColor);
+            // 用渐变进行填充颜色
+            context.strokeStyle = ring;
+            // 设置圆环的宽度
+            context.lineWidth = 10;
+            // 绘画圆环
+            context.beginPath();
+            // 使用arc设置context.arc(x,y,r,sAngle,eAngle,counterclockwise);
+            // x:圆的中心的x坐标；y:圆的中心的y坐标；r:圆的半径；
+            // sAngle:起始角，以弧度计（弧的圆形的三点钟位置是 0 度）；
+            // eAngle:结束角，以弧度计；
+            // counterclockwise:可选。规定应该逆时针还是顺时针绘图。False = 顺时针，true = 逆时针。
+            context.arc(74, 74, 60, 0, Math.PI * 2, false);
+            // 设置圆环
+            context.stroke();
+            // 结束 画圆环
+            context.closePath();
+
+            // 中间的 圆 createRadialGradient(x0,y0,r0,x1,y1,r1)；
+            // 渐变的开始圆的x0、y0、r0坐标半径；渐变的结束圆的x1、y1、z1坐标半径
+            var round = context.createRadialGradient(74, 74, 5, 74, 74, 40);
+            round.addColorStop(0, '#FFF');
+            round.addColorStop(1, '#4C4C4C');
+            context.fillStyle = round;
+            context.beginPath();
+            // 上面已经描述清楚
+            context.arc(74, 74, 48, 0, 2 * Math.PI, true);
+            // 实心圆
+            context.fill();
+        }
+        // 画圆环  #1377ff   #b042fe    #C80000   #08e5ab  #00a1f0   这些颜色可以自己尝试
+        initCanvas('canvasEle', '#2C2255', '#08e5ab');
+    </script>
+</html>

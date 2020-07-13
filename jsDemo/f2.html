@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <title>Document</title>
+    </head>
+    <body>
+        <!-- 引入在线资源 -->
+        <canvas id="myChart" width="300" height="260"></canvas>
+        <script>
+            /*Fixing iframe window.innerHeight 0 issue in Safari*/ document.body
+                .clientHeight;
+        </script>
+
+        <script src="https://unpkg.com/@antv/f2@3.4.2/dist/f2-all.min.js"></script>
+
+        <script src="https://gw.alipayobjects.com/os/antv/assets/lib/jquery-3.2.1.min.js"></script>
+        <!-- 在 PC 上模拟 touch 事件 -->
+        <script src="https://gw.alipayobjects.com/os/rmsportal/NjNldKHIVQRozfbAOJUW.js"></script>
+
+        <div class="chart-wrapper">
+            <canvas id="mountNode"></canvas>
+        </div>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
+        <script>
+            // F2 对数据源格式的要求，仅仅是 JSON 数组，数组的每个元素是一个标准 JSON 对象。
+            const data = [
+                { genre: 'Sports', sold: 275 },
+                { genre: 'Strategy', sold: 115 },
+                { genre: 'Action', sold: 120 },
+                { genre: 'Shooter', sold: 350 },
+                { genre: 'Other', sold: 150 },
+                { genre: 'Othcser', sold: 150 },
+                { genre: 'Othsder', sold: 150 },
+                { genre: 'Otsdfsfher', sold: 150 }
+            ];
+            const dataX = [
+                'Sports',
+                'Strategy',
+                'Action',
+                'Shooter',
+                'Other',
+                'Othcser',
+                'Othsder',
+                'Otsdfsfher'
+            ];
+            const data2 = [
+                { genre: 'X', sold: 275 },
+                { genre: 'xxx', sold: 115 },
+                { genre: 'xx', sold: 120 },
+                { genre: 'xxx', sold: 350 },
+                { genre: 'xxx', sold: 150 },
+                { genre: 'sdf', sold: 150 },
+                { genre: 'xxsfdfsdx', sold: 150 },
+                { genre: 'fsdf', sold: 150 }
+            ];
+            // Step 1: 创建 Chart 对象
+            const chart = new F2.Chart({
+                id: 'myChart',
+                pixelRatio: window.devicePixelRatio // 指定分辨率
+            });
+
+            // Step 2: 载入数据源
+            chart.source(data, {
+                date: {
+                    type: 'timeCat',
+                    tickCount: 5,
+                    values: dataX
+                },
+                steps: {
+                    tickCount: 5
+                }
+            });
+
+            // Step 3：创建图形语法，绘制柱状图，由 genre 和 sold 两个属性决定图形位置，genre 映射至 x 轴，sold 映射至 y 轴
+            chart
+                .interval()
+                .position('genre*sold')
+                .color('genre')
+                .size('x', x => {
+                    return 50;
+                });
+
+            chart.interaction('pan');
+            // 定义进度条
+            chart.scrollBar({
+                mode: 'x',
+                xStyle: {
+                    offsetY: -5
+                }
+            });
+            // chart.scrollBar({
+            //     mode: 'x',
+            //     xStyle: {
+            //         backgroundColor: 'rgba(202, 215, 239, .2)',
+            //         fillerColor: 'rgba(202, 215, 239, .5)',
+            //         size: 4,
+            //         lineCap: 'round',
+            //         offsetX: 0,
+            //         offsetY: 8
+            //     }
+            // });
+            // chart.interaction('pan');
+            // Step 4: 渲染图表
+
+            chart.render();
+
+            // setTimeout(() => {
+            //     chart.changeData(data2);
+            // }, 2000);
+        </script>
+    </body>
+</html>

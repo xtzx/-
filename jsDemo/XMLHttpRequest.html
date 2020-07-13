@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <meta http-equiv="Access-Control-Allow-Origin" content="*" />
+        <title>Document</title>
+    </head>
+    <body>
+        <script>
+            const xhr = new XMLHttpRequest();
+            // console.log('XMLHttpRequest: ', xhr);
+            // console.log('XMLHttpRequest: ', window.XMLHttpRequest);
+
+            xhr.upload.onprogress = function(event) {
+                console.log('onprogress-event: ', event);
+            };
+
+            //注册相关事件回调处理函数
+            xhr.onload = function(e) {
+                console.log('onload-e: ', e);
+                if (this.status == 200 || this.status == 304) {
+                    console.log('responseText', this.responseText);
+                    console.log('responseText', this.getAllResponseHeaders());
+                }
+            };
+
+            xhr.onreadystatechange = function(event) {
+                console.log('o------------o', event);
+                if (xhr.readyState == 4) {
+                    if (
+                        (xhr.status >= 200 && xhr.status < 300) ||
+                        xhr.status == 304
+                    ) {
+                        console.log('onreadystatechange', xhr.responseText);
+                    } else {
+                        console.log('Request was unsuccessful: ' + xhr.status);
+                    }
+                }
+            };
+
+            xhr.timeout = 3000;
+            xhr.ontimeout = function() {
+                // 超时处理
+            };
+            xhr.responseType = 'TEXT';
+
+            xhr.open(
+                'GET',
+                'http://mock.baijiahulian.com/mock/5d0c47055a139164fcd1ed6e/play-logic/sapi/playLogic/video/callbackData',
+                true
+            );
+
+            // 表单数据的编码类型
+            xhr.setRequestHeader(
+                'Content-Type',
+                'application/x-www-form-urlencoded'
+            );
+            xhr.setRequestHeader('X-Test', 'one');
+            xhr.setRequestHeader('XXXXX-Test', 'one');
+
+            xhr.send();
+
+            function isSupport() {
+                return new XMLHttpRequest().withCredentials ? true : false;
+            }
+
+
+                (function() {
+                    var ajax = {
+                        _createXhr: function() {
+                            var xhr, curVersion;
+                            if (window.XMLHttpRequest) {
+                                _createXhr = function() {
+                                    return new XMLHttpRequest();
+                                };
+                                xhr = new XMLHttpRequest();
+                            } else if (window.ActiveXObject) {
+                                var versions = [
+                                    'MSXML2.XMLHTTP',
+                                    'MSXML2.XMLHTTP.6.0',
+                                    'MSXML2.XMLHTTP.3.0'
+                                ];
+                                for (var i = 0; i < versions.length; i++)
+                                    try {
+                                        xhr = new ActiveXObject(version[i]);
+                                        if (xhr) {
+                                            curVersion = version[i];
+                                            _createXhr = function() {
+                                                return new ActiveXObject(
+                                                    curVersion
+                                                );
+                                            };
+                                            break;
+                                        }
+                                    } catch (e) {}
+                            }
+                            if (!xhr) {
+                                throw new Error('fail to create XHR');
+                            }
+                            return xhr;
+                        },
+                        _serialize: function(data) {
+                            if (typeof data == 'object') {
+                                var p = [];
+                                for (var key in data) {
+                                    p.push(
+                                        encodeURIComponent(key) +
+                                            '=' +
+                                            encodeURIComponent(data[key])
+                                    );
+                                }
+                                return p.join('&');
+                            } else if (typeof data == 'string') {
+                                return data;
+                            } else {
+                                throw new Error('fail to serialize parameters');
+                            }
+                        },
+                        _get: function(params, xhr) {
+                            // get请求
+                            var url = params.url;
+                            if (params.data) {
+                                url = url.indexOf('?') > 0 ? url : url + '?';
+                                url += this._serialize(params.data);
+                            }
+                            xhr.open('get', url);
+                            xhr.send(null);
+                        },
+                        _post: function(params, xhr) {
+                            // post请求
+                            var url = params.url;
+                            if (params.data) {
+                                var data = this._serialize(params.data);
+                            }
+                            xhr.open('post', url);
+                            // 增加请求头
+                            xhr.setRequestHeader(
+                                'Content-Type',
+                                params.contentType ||
+                                    'application/x-www-form-urlencoded'
+                            );
+                            xhr.send(data);
+                        },
+                        send: function(params) {
+                            if (!params.url) {
+                                throw new Error('invalid parameters');
+                            }
+                            var requestType = params.requestType || 'GET';
+                            var timeout = params.timeout || 60000;
+                            var callback = params.callback || function() {};
+                            var xhr = ajax._createXhr();
+
+                            // 超时错误，可以使用timeout和ontimeout，
+                            // 这里使用定时器来实现
+                            if ('timeout' in xhr) {
+                                xhr.timeout = timeout;
+                                xhr.ontimeout = function() {
+                                    callback({ msg: 'timeout' });
+                                };
+                            } else {
+                                var timer = setTimeout(function() {
+                                    xhr.abort();
+                                    callback({ msg: 'timeout' });
+                                }, timeout);
+                            }
+                            // 正常返回
+                            xhr.onreadystateChange = function() {
+                                if (xhr.readyState == 4 && xhr.status == 200) {
+                                    timer && clearTimeout(timer);
+                                    var ret = xhr.responseText;
+                                    try {
+                                        ret =
+                                            typeof JSON.parse == 'function'
+                                                ? JSON.parse(ret)
+                                                : ret;
+                                    } catch (_) {}
+                                    callback(ret);
+                                }
+                            };
+                            // 请求错误
+                            xhr.onerror = function() {
+                                timer && clearTimeout(timer);
+                                callback({ msg: 'error' });
+                            };
+                            // 开启跨域
+                            if ('withCredential' in xhr) {
+                                xhr.withCredentials = true;
+                            }
+
+                            // 处理参数
+                            requestType = requestType.toUpperCase();
+                            switch (
+                                requestType // 之后可以补充多个请求方法
+                            ) {
+                                case 'GET':
+                                    ajax._get(params, xhr);
+                                    break;
+                                case 'POST':
+                                    ajax._post(params, xhr);
+                                    break;
+                            }
+                        }
+                    };
+                    window.ajax = ajax;
+                })();
+            // console.log('ajax: ', ajax);
+        </script>
+    </body>
+</html>

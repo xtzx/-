@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <title>Document</title>
+    </head>
+
+    <body>
+        <div
+            id="p"
+            onclick="handle(event)"
+            style="height:80px;width:40px;border:1px solid blue"
+        >
+            scr
+            <div id="son">div-child</div>
+        </div>
+
+        <form onsubmit="smt(event)" id="myForm">
+            <!-- <button id="submit" type="submit">click</button> -->
+            <!-- <input type="hidden" id="" style="display:none" /> -->
+            <input type="text" id="" value="xxxxx" />
+            <button type="submit">Reset Form</button>
+        </form>
+
+        <!-- <div class="editable" id="richedit" contenteditable style="height:80px;width:400px;border:1px solid red"></div> -->
+
+        <script type="text/javascript">
+            // window.addEventListener("load", function () {
+            //     frames["myframe"].document.designMode = "on";
+            // });
+        </script>
+
+        <script>
+            const p = document.getElementById('p');
+            const son = document.getElementById('son');
+
+            // son.addEventListener(
+            //     'click',
+            //     e => {
+            //         // e.stopPropagation();
+            //         console.log('冒泡-子节点-e:target ', e.eventPhase);
+            //     },
+            //     false
+            // );
+            // son.addEventListener(
+            //     'click',
+            //     e => {
+            //         // e.stopPropagation();
+            //         console.log('捕获-子节点-e:currentTarget ', e.eventPhase);
+            //     },
+            //     true
+            // );
+            // p.addEventListener(
+            //     'click',
+            //     e => {
+            //         // e.stopPropagation();
+            //         console.log('冒泡-父节点-e: target', e);
+            //     },
+            //     false
+            // );
+            // p.addEventListener(
+            //     'click',
+            //     e => {
+            //         // e.stopPropagation();
+            //         console.log('捕获-父节点-e: currentTarget', e);
+            //     },
+            //     true
+            // );
+
+            smt = e => {
+                console.log('params: ', e);
+                e.preventDefault();
+                //重置表单
+                // document.forms[0].reset();
+            };
+
+            var form = document.getElementById('myForm');
+            var field = form.elements[0];
+
+            //修改 value 属性
+            field.value = 'Another value';
+
+            //检查 form 属性的值
+            // console.log(field.form === form);
+
+            //把焦点设置到当前字段
+            // field.focus();
+            field.select();
+
+            //修改 type 属性（不推荐，但对<input>来说是可行的）
+            // field.type = "checkbox";
+
+            // var User = function(opts) {
+            //     var scope = this;
+            //     for (let k in opts) {
+            //         scope['get' + k] = function() {
+            //             return opts[k];
+            //         };
+            //         scope['set' + k] = function(v) {
+            //             return (opts[k] = v);
+            //         };
+            //     }
+            // };
+            // var u = new User({
+            //     name: '测试',
+            //     age: 11
+            // });
+            // console.log('u: ', u);
+            // u.getname();
+            // console.log('u.getname(): ', u.getname());
+            // u.getage();
+            // console.log('u.getage(): ', u.getage());
+
+            window.addEventListener('load', function(event) {
+                document.forms[0].elements[0].focus();
+                // console.log('document.forms[0].elements[0]: ', document.forms[0].elements[0].autofocus);
+            });
+
+            // function serialize(form) {
+            //     var parts = [], field = null, i, len, j, optLen, option, optValue;
+            //     for (i = 0, len = form.elements.length; i < len; i++) {
+            //         field = form.elements[i];
+            //         switch (field.type) {
+            //             case "select-one":
+            //             case "select-multiple":
+            //                 if (field.name.length) {
+            //                     for (j = 0, optLen = field.options.length; j < optLen; j++) {
+            //                         option = field.options[j];
+            //                         if (option.selected) {
+            //                             optValue = "";
+            //                             if (option.hasAttribute) {
+            //                                 optValue = (option.hasAttribute("value") ? option.value : option.text);
+            //                             } else {
+            //                                 optValue = (option.attributes["value"].specified ? option.value : option.text);
+            //                             }
+            //                             parts.push(encodeURIComponent(field.name) + "=" + encodeURIComponent(optValue));
+            //                         }
+            //                     }
+            //                 } break;
+            //             case undefined://字段集
+            //             case "file": //文件输入
+            //             case "submit"://提交按钮
+            //             case "reset": //重置按钮
+            //             case "button": //自定义按钮
+            //                 break;
+            //             case "radio": //单选按钮
+            //             case "checkbox": //复选框
+            //                 if (!field.checked) {
+            //                     break;
+            //                 }
+            //             /* 执行默认操作 */
+            //             default:
+            //                 //不包含没有名字的表单字段
+            //                 if (field.name.length) {
+            //                     parts.push(encodeURIComponent(field.name) + "=" + encodeURIComponent(field.value));
+            //                 }
+            //         }
+            //     } return parts.join("&");
+            // }
+            // document.getElementById("myframe").contentWindow
+            // console.log('document.getElementById("myframe").contentWindow: ', document.getElementsByClassName("myframe"));
+        </script>
+
+        <iframe
+            name="myframe"
+            style="height:800px;width:400px;"
+            src="jsx.html"
+            frameborderid="myframe"
+            class="myframe"
+            id="myframe"
+            onload="load()"
+        >
+        </iframe>
+
+        <script>
+            // const iframeWindow = document.getElementsByClassName("myframe")[0].contentWindow
+            // iframeWindow.postMessage("A secret", "http://127.0.0.1:5500/dom-demo.html");
+            // iframeWindow.postMessage("postMessaget", '*');
+            function load() {
+                const iframeWindow = document.getElementById('myframe')
+                    .contentWindow;
+                iframeWindow.postMessage('来自dom的postMessage', '*');
+
+                window.addEventListener(
+                    'message',
+                    function(event) {
+                        console.log('dom-event: ', event.data);
+                    },
+                    false
+                );
+            }
+
+        </script>
+    </body>
+</html>

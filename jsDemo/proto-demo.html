@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <title>Document</title>
+    </head>
+
+    <body>
+        <div id="id">原型demo</div>
+        <script>
+            // const dom = document.getElementById('id');
+            // dom.innerHTML = Array.of.toString()
+            // dom.innerHTML = Array.of.prototype
+
+            // const fn = function () {
+            //     a1 = 1;
+            //     this.a2 = 2;
+            // };
+            // fn.a3 = 3;
+            // fn.prototype.a4 = 4;
+            // fn.prototype.constructor.a5 = 5;
+
+            // console.log('fn: ', fn.prototype);
+            // console.log('fn-a1: ', fn.a1);
+            // console.log('fn-a2: ', fn.a2);
+            // console.log('fn-a3: ', fn.a3);
+            // console.log('fn-a4: ', fn.a4);
+            // console.log('fn-a5: ', fn.a5);
+
+            // const obj = new fn()
+            // console.log('obj: ', obj.prototype);
+            // console.log('obj-a1: ', obj.a1);
+            // console.log('obj-a2: ', obj.a2);
+            // console.log('obj-a3: ', obj.a3);
+            // console.log('obj-a4: ', obj.a4);
+            // console.log('obj-a5: ', obj.a5);
+
+            // const object = {
+            //     a1: 1,
+            // };
+            // object.a2 = 2;
+            // Object.getPrototypeOf(object).a3 = 3;
+            // Object.getPrototypeOf(object).constructor.a4 = 4;
+
+            // console.log('obj: ', object.__proto__);
+            // console.log('obj-a1: ', object.a1);
+            // console.log('obj-a2: ', object.a2);
+            // console.log('obj-a3: ', object.a3);
+            // console.log('obj-a4: ', object.a4);
+
+Object.prototype.aa = 'zzzz';
+Function.prototype.aa = 'xxx';
+function P() {}
+const p = new P();
+console.log(p.aa);
+
+console.log(
+    'P.__proto__ === Function.prototype: ',
+    P.__proto__ === Function.prototype
+);
+console.log(
+    ' P.prototype.__proto__ === Object.prototype: ',
+    P.prototype.__proto__ === Object.prototype
+);
+console.log(
+    'p.__proto__ === P.prototype: ',
+    p.__proto__ === P.prototype
+);
+        </script>
+    </body>
+</html>

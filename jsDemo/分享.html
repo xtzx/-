@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+    </head>
+    <body>
+        <script>
+            // 直接操作JS对象
+            let o = { a: 2 };
+            console.time('js');
+            for (let i = 0; i <= 1e4; i++) {
+                o.a = i;
+            }
+            console.timeEnd('js');
+
+            // ----------------------------------------------------------------
+
+            // 直接操作 document
+            console.time('dom');
+            for (let i = 0; i <= 1e4; i++) {
+                document.a = i;
+            }
+            console.timeEnd('dom');
+
+            // ----------------------------------------------------------------
+
+            // 修改DOM属性
+            console.time('dom-title');
+            for (let i = 0; i <= 1e4; i++) document.title = i;
+            console.timeEnd('dom-title');
+
+            // <SDD />
+            // {Sdd()}
+        </script>
+    </body>
+</html>

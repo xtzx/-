@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <title>Document</title>
+    </head>
+    <body>
+        <div id="chart" style="width:100%;height:400px;overflow:scroll"></div>
+
+        <script type="text/javascript" src="echarts.js"></script>
+
+        <script type="text/javascript">
+            // 初始化图表标签
+            const myChart = echarts.init(document.getElementById('chart'));
+            // 在使用echarts.js的时候一定要配置xAxis,yAxis,series这三个参数
+            // 如果是不想设置的话也要初始化可以将其设置为空JSON就可以了，要不然会出项报错
+            // 同时要保证在echarts.init之前的对象是有宽高的，要不然也会出现错误
+
+            // const options = {
+            //     //定义一个标题
+            //     title: {
+            //         text: '测试成绩', //主标题文本，支持使用 \n 换行
+            //         top: 20,
+            //         show: true, //是否显示标题组件
+            //         link: '', // 主标题文本超链接
+            //         target: 'blank', //指定窗口打开主标题超链接  'self' 当前窗口打开
+            //         // textStyle: '',
+            //         triggerEvent: 'false', //是否触发事件
+            //         textVerticalAlign: 'auto', //垂直对齐
+            //         textAlign: 'auto', // 整体（包括 text 和 subtext）的水平对齐:可选值：'auto'、'left'、'right'、'center'。
+            //         id: 'id', //默认不指定。指定则可用于在 option 或者 API 中引用组件
+            //         padding: [0, 0, 0, 0],
+            //         zlevel: 1,
+            //         backgroundColor: 'red'
+            //     },
+
+            //     // 图例组件
+            //     // 图例
+            //     // 图例组件展现了不同系列的标记(symbol)，颜色和名字。可以通过点击图例控制哪些系列不显示
+            //     legend: {
+            //         data: ['销量', 'df', 'dsf'],
+            //         left: 'center',
+            //         type: 'plain', //'plain'：普通图例  'scroll'：可滚动翻页的图例
+            //         // left: '50%'
+            //         // top: 'middle'
+            //         // id show zlevel z left width height align
+            //         orient: 'horizontal' // vertical 图例列表的布局朝向
+            //     },
+
+            //     // X轴设置
+            //     // 一般情况下单个grid组件最多只能放上下两个x轴
+            //     // 多于两个x轴需要通过配置offset属性防止同个位置多个x轴的重叠
+            //     xAxis: {
+            //         gridIndex: 0, // x 轴所在的 grid 的索引，默认位于第一个 grid
+            //         type: 'category',
+            //         //'value' 数值轴，适用于连续数据
+            //         // 'category' 类目轴，适用于离散的类目数据，为该类型时必须通过 data 设置类目数据。
+            //         // time' 时间轴，适用于连续的时序数据，与数值轴相比时间轴带有时间的格式化，在刻度计算上也有所不同，例如会根据跨度的范围来决定使用月，星期，日还是小时范围的刻度。
+            //         // log' 对数轴。适用于对数数据。
+            //         name: '横标轴名称', //坐标轴名称
+            //         nameTextStyle: '', //坐标轴名称的文字样式
+
+            //         nameLocation: 'start', //
+            //         data: [
+            //             '6分',
+            //             '7分',
+            //             '8分',
+            //             '9分',
+            //             '10分',
+            //             '11分',
+            //             '10分',
+            //             '100分',
+            //             '10分'
+            //         ]
+            //     },
+
+            //     yAxis: {},
+
+            //     //name=legend.data的时候才能显示图例
+
+            //     // 提示框组件
+            //     tooltip: {
+            //         show: true,
+            //         trigger: 'item'
+            //     },
+
+            //     dataZoom: [
+            //         {
+            //             id: 'dataZoomX',
+            //             type: 'slider',
+            //             xAxisIndex: [0],
+            //             filterMode: 'filter'
+            //         }
+            //         // {
+            //         //     show: false,
+            //         //     type: 'slider',
+            //         //     realtime: false,
+            //         //     bottom: 0
+            //         // }
+            //     ],
+            //     animation: true
+            // };
+            // options.xAxis.axisPointer.show = true;
+            // myChart.setOption(options);
+
+            // ------------ ------------ ------------ ------------ ------------ ------------ ------------ ------------ ------------ ------------ ------------ ------------
+
+            // ------------ ------------ ------------ ------------ ------------ ------------ ------------ ------------ ------------ ------------ ------------ ------------
+
+            // ------------ ------------ ------------ ------------ ------------ ------------ ------------ ------------ ------------ ------------ ------------ ------------
+
+            // ------------ ------------ ------------ ------------ ------------ ------------ ------------ ------------ ------------ ------------ ------------ ------------
+
+            const option = {
+                tooltip: {
+                    trigger: 'item'
+                },
+                grid: {
+                    top: '12%',
+                    left: '1%',
+                    right: '10%',
+                    containLabel: true
+                },
+                dataZoom: [
+                    // {
+                    //     id: 'dataZoomX',
+                    //     type: 'slider',
+                    //     xAxisIndex: [0],
+                    //     filterMode: 'filter'
+                    // },
+                    // {
+                    //     id: 'dataZoomY',
+                    //     type: 'slider',
+                    //     yAxisIndex: [0],
+                    //     filterMode: 'empty'
+                    // }
+
+                    // {
+                    //     id: 'dataZoomX',
+                    //     type: 'slider',
+                    //     xAxisIndex: [0],
+                    //     filterMode: 'filter', // 设定为 'filter' 从而 X 的窗口变化会影响 Y 的范围。
+                    //     start: 10,
+                    //     end: 20,
+                    //     rangeMode: [10, 10]
+                    // }
+                    // {
+                    //     type: 'inside',
+                    //     show: true,
+                    //     realtime: true,
+                    //     // yAxisIndex: [0],
+                    //     // filterMode: 'empty',
+                    //     start: 1,
+                    //     end: 10,
+                    //     // filterMode: 'filter',
+                    //     filterMode: 'none',
+                    //     startValue: 1, //数据窗口范围的起始数值
+                    //     endValue: 10,
+                    //     orient: 'horizontal',
+                    //     zoomLock: true
+                    // }
+                    {
+                        type: 'slider',
+                        show: false,
+                        start: 94,
+                        end: 100,
+                        handleSize: 8
+                    },
+                    {
+                        type: 'inside',
+                        start: 94,
+                        end: 100
+                    },
+                    {
+                        type: 'slider',
+                        show: true,
+                        yAxisIndex: 0,
+                        filterMode: 'empty',
+                        width: 12,
+                        height: '70%',
+                        handleSize: 8,
+                        showDataShadow: false,
+                        left: '93%'
+                    }
+                ],
+                xAxis: {
+                    type: 'value'
+                },
+                yAxis: {
+                    type: 'value'
+                },
+                series: [
+                    {
+                        data: [
+                            [1, 10],
+                            [2, 40],
+                            [3, 20],
+                            [4, 10],
+                            [5, 60],
+                            [6, 10],
+                            [7, 90],
+                            [8, 10],
+                            [9, 100],
+                            [10, 140],
+                            [11, 160],
+                            [12, 190],
+                            [13, 108]
+                        ],
+                        type: 'line'
+                    }
+                ]
+            };
+            myChart.on('datazoom', function(params) {
+                console.log('params: ', params);
+                //params里面有什么，可以打印出来看一下就明白
+                console.log(params);
+                //可以通过params获取缩放的起止百分比，但是鼠标滚轮和伸缩条拖动触发的params格式不同，所以用另一种方法
+                //获得图表数据数组下标
+                var startValue = myChart.getModel().option.dataZoom[0]
+                    .startValue;
+                var endValue = myChart.getModel().option.dataZoom[0].endValue;
+                //获得起止位置百分比
+                var startPercent = myChart.getModel().option.dataZoom[0].start;
+                var endPercent = myChart.getModel().option.dataZoom[0].end;
+            });
+
+            myChart.setOption(option);
+        </script>
+    </body>
+</html>
