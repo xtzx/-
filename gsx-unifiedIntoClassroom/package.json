@@ -1,0 +1,12 @@
+{
+  "name": "gsx-unified-into-classroom",
+  "version": "1.0.0",
+  "description": "统一进教室接口",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "zhouming",
+  "license": "MIT"
+}
