@@ -1,0 +1,43 @@
+{
+  "name": "hookstore",
+  "version": "0.2.5",
+  "description": "Hook based and lightweight centralized state management for React.",
+  "main": "dist/index.js",
+  "module": "dist/index.esm.js",
+  "types": "index.d.ts",
+  "sideEffects": false,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/react-kit/hookstore"
+  },
+  "homepage": "https://github.com/react-kit/hookstore",
+  "bugs": {
+    "url": "https://github.com/react-kit/hookstore/issues"
+  },
+  "authors": [
+    "chemdemo <yangdemo@gmail.com> (https://github.com/chemdemo)"
+  ],
+  "keywords": [
+    "react",
+    "hooks",
+    "state manage",
+    "hookstore"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "invariant": "^2.2.4",
+    "is-plain-object": "^3.0.0"
+  },
+  "peerDependencies": {
+    "react": ">=16.8.0",
+    "react-dom": ">=16.8.0"
+  },
+  "files": [
+    "dist",
+    "src",
+    "index.d.ts"
+  ],
+  "devDependencies": {
+    "lodash.isequal": "^4.5.0"
+  }
+}
