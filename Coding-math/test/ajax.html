@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <script>
+        // js 创建XMLHttpRequest 对象
+        function createXMLHttpRequest() {
+            var XMLHttpReq;
+            try {
+                XMLHttpReq = new ActiveXObject("Msxml2.XMLHTTP"); //IE高版本创建XMLHTTP
+            } catch (E) {
+                try {
+                    XMLHttpReq = new ActiveXObject("Microsoft.XMLHTTP"); //IE低版本创建XMLHTTP
+                } catch (E) {
+                    try {
+                        XMLHttpReq = new XMLHttpRequest(); //兼容非IE浏览器，直接创建XMLHTTP对象
+                    } catch (E) {
+                        alert("你的浏览器不支持XMLHTTP对象，请升级到IE6以上版本！");
+                        XMLHttpReq = false;
+                    }
+                }
+
+            }
+            return XMLHttpReq;
+        }
+
+
+
+        // url 地址
+        // type 同步或者异步
+        // true |  false（ true， 即为异步方式， 不用等待请求完成， 即可执行ajax后面方法。 
+        // 若要将其设置为false， 则所有的请求均为同步请求， 在没有返回值之前， 同步请求将锁住浏览器， 用户其它操作必须等待请求完成才可以执行。 一般用true）
+        // parameter 参数格式为 a=1&b=2&c=3
+        // callback 回调函数
+        function ajax(url, method, type, parameter, callback) {
+            // 获取XMLHttpRequest对象
+            XMLHttpReq = createXMLHttpRequest();
+            XMLHttpReq.open(method, url, type);
+
+            // post 传参需要添加上这个 否则 post 失败
+            if (method == 'post') {
+                XMLHttpReq.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            }
+
+            // 调用回调函数
+            XMLHttpReq.onreadystatechange = callback;
+
+            // 发送参数
+            XMLHttpReq.send(parameter);
+        }
+
+        // 回调函数
+        function callback_check_video() {
+            // 0：请求未初始化（还没有调用 open()）。
+            // 1：请求已经建立，但是还没有发送（还没有调用 send()）。
+            // 2：请求已发送，正在处理中（通常现在可以从响应中获取内容头）。
+            // 3：请求在处理中；通常响应中已有部分数据可用了，但是服务器还没有完成响应的生成。
+            // 4：响应已完成；您可以获取并使用服务器的响应了。
+            // readyState 状态为4 响应已完成
+            if (XMLHttpReq.readyState == 4) {
+                // 200表示访问成功
+                if (XMLHttpReq.status == 200) {
+                    // 获取相应文本
+                    var res = XMLHttpReq.responseText;
+                    // 以下为处理相应数据逻辑根据自己业务逻辑做相应处理
+                    // 把json串 转换为对象
+                    var objRes = JSON.parse(res);
+                    if (objRes.status != 0) {
+                        alert(objRes.msg)
+                        return false;
+                    }
+                    alert(objRes.msg);
+                    window.location.reload();
+                }
+                XMLHttpReq = null;
+            }
+        }
+
+        // 调用实例 此处为post
+        // 如果为get方式，则把参数拼接到url中,method为get,parameter为null即可
+        function check_video(obj) {
+            var url = "";
+            var method = "post";
+            var type = true;
+
+            // js 获取html标签自定义属性
+            var check_type = obj.getAttribute('checkvideo');
+            // 参数
+            var parameter = "checkvideo=" + check_type + "&videoid=" + obj.getAttribute('videoid');
+            ajax(url, method, type, parameter, callback_check_video);
+        }
+    </script>
+</body>
+
+</html>
