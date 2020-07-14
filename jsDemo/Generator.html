@@ -38,6 +38,7 @@
 
             var g = function* () {
                 try {
+                    throw new Error('1');
                     yield;
                 } catch (e) {
                     console.log('内部捕获', e);
@@ -45,14 +46,79 @@
             };
 
             var i = g();
-            i.next();
+            // i.next();
 
-            try {
-                i.throw('a');
-                i.throw('b');
-            } catch (e) {
-                console.log('外部捕获', e);
+            // i.throw('a');
+            // i.throw('a');
+
+            // try {
+            //     throw new Error('2');
+            //     throw new Error('3');
+            //     i.throw('a');
+
+            //     i.throw('b');
+            //     i.throw('c');
+            // } catch (e) {
+            //     console.log('外部捕获', e);
+            // }
+
+            var genX = function* gen() {
+                yield console.log('a');
+                yield console.log('b');
+                yield console.log('c');
+            };
+
+            var g33 = genX();
+
+            // try {
+            //     g33.next(); // a
+            //     g33.throw(); // b
+            //     g33.next(); // a
+            // } catch (error) {
+            //     console.log('error: ', error);
+            // }
+
+            function* g2() {
+                yield 1;
+                console.log('throwing an exception');
+                throw new Error('generator broke!');
+                yield 2;
+                yield 3;
             }
+
+            function log(generator) {
+                var v;
+
+                console.log('starting generator');
+
+                try {
+                    v = generator.next();
+                    console.log('第一次运行next方法', v);
+                } catch (err) {
+                    console.log('捕捉错误', v);
+                }
+                try {
+                    v = generator.next();
+                    console.log('第二次运行next方法', v);
+                } catch (err) {
+                    console.log('捕捉错误', v);
+                }
+                try {
+                    v = generator.next();
+                    console.log('第三次运行next方法', v);
+                } catch (err) {
+                    console.log('捕捉错误', v);
+                }
+                console.log('caller done');
+            }
+
+            log(g2());
+            // starting generator
+            // 第一次运行next方法 { value: 1, done: false }
+            // throwing an exception
+            // 捕捉错误 { value: 1, done: false }
+            // 第三次运行next方法 { value: undefined, done: true }
+            // caller done
         </script>
     </body>
 </html>
