@@ -112,13 +112,67 @@
                 console.log('caller done');
             }
 
-            log(g2());
+            // log(g2());
             // starting generator
             // 第一次运行next方法 { value: 1, done: false }
             // throwing an exception
             // 捕捉错误 { value: 1, done: false }
             // 第三次运行next方法 { value: undefined, done: true }
             // caller done
+
+            function* genCC() {
+                yield 1;
+                yield 2;
+                yield 3;
+            }
+
+            var g55 = genCC();
+
+            // console.log('g55.next(): ', g55.next());
+            // console.log(' g55.return', g55.return('foo'));
+            // console.log('g55.next(): ', g55.next());
+
+            function* foo() {
+                yield 'a';
+                yield 'b';
+            }
+
+            function* bar() {
+                yield 'x';
+                // 手动遍历 foo()
+                for (let i of foo()) {
+                    console.log(i);
+                }
+                yield 'y';
+            }
+
+            // for (let v of bar()) {
+            //     console.log(v);
+            // }
+
+            // function* inner() {
+            //     yield 'hello!';
+            //     yield 'ho!';
+            // }
+
+            // function* outer1() {
+            //     yield 'open';
+            //     yield* inner();
+            //     yield 'close';
+            // }
+
+            function* F() {
+                console.log('this: ', this);
+                yield yield 7;
+                yield 2;
+                yield 3;
+            }
+
+            var f = F();
+            console.log('f.next(): ', f.next(3));
+            console.log('f.next(): ', f.next(14));
+            console.log('f.next(): ', f.next());
+            console.log('f.next(): ', f.next());
         </script>
     </body>
 </html>
