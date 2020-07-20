@@ -1,0 +1,25 @@
+{
+    "name": "webpack-first",
+    "version": "1.0.0",
+    "main": "index.js",
+    "license": "MIT",
+    "devDependencies": {
+        "@babel/core": "^7.10.5",
+        "@babel/plugin-transform-runtime": "^7.10.5",
+        "@babel/preset-env": "^7.10.4",
+        "babel-loader": "^8.1.0",
+        "cross-env": "^7.0.2",
+        "html-webpack-plugin": "^4.3.0",
+        "webpack": "^4.43.0",
+        "webpack-cli": "^3.3.12",
+        "webpack-dev-server": "^3.11.0"
+    },
+    "dependencies": {
+        "@babel/runtime": "^7.10.5",
+        "@babel/runtime-corejs3": "^7.10.5"
+    },
+    "scripts": {
+        "dev": "cross-env NODE_ENV=development webpack-dev-server",
+        "build": "cross-env NODE_ENV=production webpack"
+    }
+}
